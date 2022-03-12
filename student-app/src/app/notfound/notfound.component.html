@@ -1,0 +1,13 @@
+<div class="text-center">
+    <label><h2>Oops... we couldn't find that page.</h2></label>
+</div>
+<div class="text-center">
+    <label class="text-tertiary"><h3>Check that the URL is correct.</h3></label>
+    <div *ngIf="path" >
+        <h4>
+            <label class="text-tertiary">Maybe you meant</label>
+            <a class="btn-link" [routerLink]="path">{{ path }}</a>
+            <label class="text-tertiary">?</label>
+        </h4>
+    </div>
+</div>

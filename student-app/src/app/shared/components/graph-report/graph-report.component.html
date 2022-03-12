@@ -1,0 +1,12 @@
+<div>
+    <h1> Average Grades by Courses </h1>
+    <div style="display: block">
+        <canvas baseChart
+        id="barChart"
+        [data]="barChartData"
+        [options]="barChartOptions"
+        [type]="barChartType">
+        </canvas>
+    </div>
+  <button mat-button mat-raised-button color="primary" (click)="downloadPdfReport()">Download Student Report</button>
+</div>

@@ -1,0 +1,26 @@
+@import '../../assets/style-vars.scss';
+
+:host ::ng-deep .p-menubar {
+    border-bottom: 2px solid rgb(172, 112, 0);
+    background-color: $navbar-color;
+    padding: 0.5rem 1rem;
+    min-height: 3rem;
+    font-size: 16px;
+    img{
+        border: 1px solid #FFF;
+    }
+    a, a:active, a:visited, a:hover {
+        text-decoration: none;
+        color: $text-color-dark;
+        vertical-align:9pt;
+    }
+}
+a, a:active, a:visited, a:hover {
+    text-decoration: none;
+    color: $text-color-dark;
+}
+.title {
+    font-weight: bold;
+    color: #495057;
+    padding: 0.75rem 1rem;
+}

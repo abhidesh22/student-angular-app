@@ -1,0 +1,35 @@
+<div class="studentinfo">
+    <h3> Select University</h3>
+    <p-dropdown 
+        *ngIf="universities.length"
+        [options]="universities"
+        [(ngModel)]="selectedUniversity"
+        optionLabel="name"
+        [filter] = true
+        class="dropdown"
+        (ngModelChange)="handleSelectionChange($event)"
+        (onClear)="handleClearSelection($event)"
+        placeholder="Select a University">
+    </p-dropdown>
+    <button type="button" pButton (click)="toggleGraphMode(true)">
+        {{ graphMode ? 'Switch to Table Mode' : 'Switch to Graph Mode' }}
+    </button>
+</div>
+
+<div *ngIf="selectedUniversity && !graphMode">
+    <app-data-table
+        [studentData]="studentsByUniversity$ | async"
+        [columnHeaders]="columns"
+    >
+    </app-data-table>
+</div>
+
+<div *ngIf="selectedUniversity && graphMode">
+    <app-graph-report
+        [gradesData]="gradesBySubject$ | async"
+        [studentData]="studentsByUniversity$ | async"
+        [columnHeaders]="columns"
+        [selectedUniversityName]="selectedUniversity.name"
+    >
+    </app-graph-report>
+</div>

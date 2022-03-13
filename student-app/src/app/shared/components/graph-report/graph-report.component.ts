@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { GradesData } from '../../models/grade-data';
 import { Student } from '../../models/student-info';
-import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
@@ -36,6 +36,7 @@ export class GraphReportComponent implements OnInit {
 
   barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {},
       y: {
@@ -58,9 +59,9 @@ export class GraphReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.barChartData = {
-      labels: this.gradesData.map((grades) => grades.course_name[0]),
+      labels: this.gradesData?.map((grades) => grades.course_name[0]),
       datasets: [
-        { data: this.gradesData.map((grades) => grades.averageGrade), label: 'Average Grades' }
+        { data: this.gradesData?.map((grades) => grades.averageGrade), label: 'Average Grades' }
       ]
     };
   }
@@ -68,6 +69,7 @@ export class GraphReportComponent implements OnInit {
   downloadPdfReport(): void {
     var doc = new jsPDF('l', 'mm',[210, 297]);
     const element = document.getElementById("barChart");
+
     html2canvas(element).then(canvas => {
         var imgData = canvas.toDataURL('image/png',1.0);                  
         doc.text(` Student Report for ${this.selectedUniversityName}`, 130,15);

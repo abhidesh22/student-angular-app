@@ -1,11 +1,10 @@
 import { PanelModule } from 'primeng/panel';
-import { DomainNamePipe } from './pipes/domain-name.pipe';
 import { StudentApiService } from './services/student-api.service';
 import { RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
-import { ConvertTimePipe } from './pipes/convert-time.pipe';
+import { FormatHeaderPipe } from './pipes/format-header.pipe';
 import { MatDividerModule } from '@angular/material/divider';
 import {DividerModule} from 'primeng/divider';
 import {InputTextareaModule} from 'primeng/inputtextarea';
@@ -14,11 +13,12 @@ import { DataTableComponent } from './components/data-table/data-table.component
 import { GraphReportComponent } from './components/graph-report/graph-report.component';
 import {TableModule} from 'primeng/table';
 import { NgChartsModule } from 'ng2-charts';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { TooltipModule } from "primeng/tooltip";
 
 @NgModule({
   declarations: [
-    DomainNamePipe,
-    ConvertTimePipe,
+    FormatHeaderPipe,
     DataTableComponent,
     GraphReportComponent
   ],
@@ -32,16 +32,20 @@ import { NgChartsModule } from 'ng2-charts';
     ButtonModule,
     PanelModule,
     TableModule,
-    NgChartsModule
+    NgChartsModule,
+    NgxSpinnerModule,
+    TooltipModule
   ],
   exports: [
-    DomainNamePipe,
-    ConvertTimePipe,
+    FormatHeaderPipe,
     DataTableComponent,
-    GraphReportComponent
+    GraphReportComponent,
+    NgxSpinnerModule,
+    TableModule
   ],
   providers: [
     StudentApiService
-  ]
+  ],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SharedModule { }

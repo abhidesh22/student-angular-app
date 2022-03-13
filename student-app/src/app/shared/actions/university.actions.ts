@@ -52,3 +52,8 @@ export const loadStudentsPerSubjectFailure = createAction(
     'Load Students Per Subject Failure',
     props<{ error: string }>()
 );
+
+export const setGraphMode = createAction(
+    'Set Graph Mode',
+    props<{ graphMode: boolean }>()
+);

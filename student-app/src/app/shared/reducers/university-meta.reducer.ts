@@ -12,13 +12,15 @@ export interface State {
   universityList: University[];
   studentPerUniList: Student[];
   studentPerSubjectList: GradesData[];
+  graphMode: boolean;
 }
 
 export const initialState: State = {
   selectedUniversity: null,
   universityList: [],
   studentPerUniList: [],
-  studentPerSubjectList: []
+  studentPerSubjectList: [],
+  graphMode: false
 };
 
 const loginReducer = createReducer(
@@ -38,6 +40,10 @@ const loginReducer = createReducer(
   on(UniversityActions.UniversitySelectionChange, (state: State, { university }) => ({
     ...state,
     selectedUniversity: university
+  })),
+  on(UniversityActions.setGraphMode, (state: State, { graphMode }) => ({
+    ...state,
+    graphMode
   })),
 );
 

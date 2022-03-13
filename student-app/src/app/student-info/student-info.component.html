@@ -1,22 +1,35 @@
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="large" color="#fff" type = "ball-clip-rotate" [fullScreen]="false">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
 <div class="studentinfo">
-    <h3> Select University</h3>
-    <p-dropdown 
-        *ngIf="universities.length"
-        [options]="universities"
-        [(ngModel)]="selectedUniversity"
-        optionLabel="name"
-        [filter] = true
-        class="dropdown"
-        (ngModelChange)="handleSelectionChange($event)"
-        (onClear)="handleClearSelection($event)"
-        placeholder="Select a University">
-    </p-dropdown>
+    <h3 class="text-center ml-auto mt-2"> Select University</h3>
+    <div class="text-center ml-auto mt-2 mb-2" >
+        <p-dropdown 
+            class="text-left ml-auto mt-3 mb-3"
+            *ngIf="universities.length"
+            [options]="universities"
+            [(ngModel)]="selectedUniversity"
+            optionLabel="name"
+            [filter] = true
+            (ngModelChange)="handleSelectionChange($event)"
+            (onClear)="handleClearSelection($event)"
+            placeholder="Select a University">
+        </p-dropdown>
+    </div>
+</div>
+
+<div *ngIf="!selectedUniversity" class="text-center">
+    <img src="../../assets/images/nodata.JPG" alt="nodata" />
+</div>
+
+<div class="text-left ml-auto mb-1" *ngIf="selectedUniversity">
     <button type="button" pButton (click)="toggleGraphMode(true)">
         {{ graphMode ? 'Switch to Table Mode' : 'Switch to Graph Mode' }}
     </button>
 </div>
 
-<div *ngIf="selectedUniversity && !graphMode">
+<div *ngIf="selectedUniversity && !graphMode" class="ml-auto">
     <app-data-table
         [studentData]="studentsByUniversity$ | async"
         [columnHeaders]="columns"

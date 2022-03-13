@@ -1,7 +1,6 @@
 import { StudentApiService } from '../../app/shared/services/student-api.service';
 import { Injectable } from '@angular/core';
 import { Observable, of, asyncScheduler } from 'rxjs';
-import { itemtype } from 'src/app/shared/models/item-types';
 
 
 @Injectable()
@@ -10,64 +9,29 @@ export class MockStudentApiService extends StudentApiService {
     super(null);
   }
 
-  override universalGetApi(type: string): Observable<any> {
-      if(type === 'topstories') {
-        return of<any>(
-            [100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110], asyncScheduler);
-      } else {
-          if(type === 'newstories') {
-            return of<any>(
-                [200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210], asyncScheduler);
-          } else {
-              return of<any>(
-                [], asyncScheduler);
-          }
-      }
-  }
-
-  override getSingleItem(id: number): Observable<any> {
-    if(id === 101) {
-      return of<any>({
-        id: 101,
-        deleted: false,
-        type: 'story' as itemtype,
-        time: 16444322,
-        text: 'sample response',
-        kids: [301, 302, 303],
-        url: 'https://test.com',
-        by: 'abc'
-      }, asyncScheduler);
-    } else {
-        if(id === 201) {
-            return of<any>({
-                id: 201,
-                deleted: false,
-                type: 'comment' as itemtype,
-                time: 16444322,
-                text: 'sample response',
-                kids: [301, 302, 303],
-                url: 'https://test.com',
-                by: 'abc'
-              }, asyncScheduler);
-        } else {
-            return of<any>(
-              {}, asyncScheduler);
+  override universityGetApi(): Observable<any> {
+    return of<any>(
+      [
+        {
+          _id: "6224974d945bdd73dfa24073",
+          name: "Concordia",
+          courses: [
+            {
+              _id: "62249644ef8192b8933ab8a8",
+              name: "Maths",
+              type: "Science",
+              subjects: [
+                "subject1",
+                "subject2",
+                "subject3"
+              ],
+              createdAt: "2022-03-06T11:08:52.396Z",
+              updatedAt: "2022-03-06T11:08:52.396Z",
+              __v: 0
+            }
+          ]
         }
-    }
-  }
-
-  override getUserInfo(id: string): Observable<any> {
-    if(id === 'abc') {
-      return of<any>({
-        about: 'test',
-        created: 1655554234,
-        id: 'abc',
-        karma: 100,
-        submitted: [101, 102, 103]
-      }, asyncScheduler);
-    } else {
-        return of<any>(
-            {}, asyncScheduler);
-    }
+      ], asyncScheduler
+    );
   }
 }

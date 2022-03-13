@@ -30,3 +30,8 @@ export const selectGradesBySubject = createSelector(
   selectUniversityState,
   (state: fromUniversity.State) => state.studentPerSubjectList
 );
+
+export const selectgraphMode = createSelector(
+  selectUniversityState,
+  (state: fromUniversity.State) => state.graphMode
+);

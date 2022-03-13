@@ -55,7 +55,7 @@ export class UniversityEffects {
   loadStudentsPerSubject$ = createEffect(() => this.actions$.pipe(
     ofType(UniversityActions.loadStudentsPerSubject),
     switchMap(({ university }) => {
-        return this.studentApiService.getStudentsbySubjectsApi(university._id).pipe(
+        return this.studentApiService.getGradesbySubjectsApi(university._id).pipe(
             map(gradesData => {
                 return UniversityActions.loadStudentsPerSubjectSuccess({ gradesData })
             }),

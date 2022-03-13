@@ -1,6 +1,6 @@
-import { selectUniversityList, selectedUniversity, selectStudentsByUniversity, selectGradesBySubject } from './../shared/selectors/university-meta.selectors';
+import { selectUniversityList, selectedUniversity, selectStudentsByUniversity, selectGradesBySubject, selectgraphMode } from './../shared/selectors/university-meta.selectors';
 import { StudentApiService } from './../shared/services/student-api.service';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { University } from '../shared/models/university-info';
 import { Observable, take } from 'rxjs';
 import { select, Store } from '@ngrx/store';
@@ -8,6 +8,7 @@ import * as fromUniversity from '../shared/reducers/university-meta.reducer';
 import { UniversityActions } from '../shared/actions';
 import { Student } from '../shared/models/student-info';
 import { GradesData } from '../shared/models/grade-data';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-student-info',
@@ -30,20 +31,35 @@ export class StudentInfoComponent implements OnInit {
     { header: 'Degree', field: 'degreeEnrolled' },
   ];
 
-  constructor(private studentApiService: StudentApiService,
-    private store: Store<fromUniversity.State>) {
+  constructor(private store: Store<fromUniversity.State>,
+    private SpinnerService: NgxSpinnerService,
+    private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
+
+    this.SpinnerService.show();
+    
     this.store.pipe(select(selectUniversityList)).pipe(take(1)).subscribe(uniList => {
       this.universities = uniList;
+      setTimeout(() => {
+        this.SpinnerService.hide();
+        this.cdr.detectChanges();
+      }, 500);
     });
+
     this.store.pipe(select(selectedUniversity)).subscribe(uni => {
       this.selectedUniversity = uni || this.selectedUniversity;
     });
+
+    this.store.pipe(select(selectgraphMode)).subscribe(mode => {
+      this.graphMode = mode;
+    });
+
     this.store.dispatch(UniversityActions.loadAllUniversities());
     this.studentsByUniversity$ = this.store.pipe(select(selectStudentsByUniversity, { selectedUniversity }));
     this.gradesBySubject$ = this.store.pipe(select(selectGradesBySubject, { selectedUniversity }));
+
   }
 
   handleSelectionChange(event: any) {
@@ -51,10 +67,11 @@ export class StudentInfoComponent implements OnInit {
   }
 
   handleClearSelection(event: any) {
-
+    this.store.dispatch(UniversityActions.UniversitySelectionChange({university: null}));
   }
   toggleGraphMode(mode: boolean) {
     this.graphMode = !this.graphMode;
+    this.store.dispatch(UniversityActions.setGraphMode({graphMode: this.graphMode}));
   }
 
 }

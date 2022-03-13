@@ -1,5 +1,5 @@
 import { UniversityEffects } from './shared/effects/university.effects';
-import { RouterModule } from '@angular/router';
+import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { PanelModule } from 'primeng/panel';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,6 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { interceptorProviders } from './interceptors';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { CustomReuseStrategy } from './custom-reuse-strategy.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,7 @@ import { EffectsModule } from '@ngrx/effects';
     }),
     EffectsModule.forRoot([UniversityEffects])
   ],
-  providers: [ interceptorProviders ],
+  providers: [ interceptorProviders, {provide: RouteReuseStrategy, useClass: CustomReuseStrategy} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

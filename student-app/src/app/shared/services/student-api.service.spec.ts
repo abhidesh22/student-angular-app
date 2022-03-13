@@ -38,7 +38,7 @@ describe('StudentApiService', () => {
       expect().nothing();
     }));
   
-    it('should make a GET request to the newstories endpoint', async(() => {
+    it('should make a GET request to the university endpoint', async(() => {
       service.universityGetApi().subscribe(data => {
         expect(data).toEqual([
           {

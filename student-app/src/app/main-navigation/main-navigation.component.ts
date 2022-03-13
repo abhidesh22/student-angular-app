@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MenuItem} from 'primeng/api';
-
+import { UniversityActions } from '../shared/actions';
+import { Store } from '@ngrx/store';
+import * as fromUniversity from '../shared/reducers/university-meta.reducer';
 @Component({
   selector: 'app-main-navigation',
   templateUrl: './main-navigation.component.html',
@@ -9,7 +11,7 @@ import {MenuItem} from 'primeng/api';
 export class MainNavigationComponent implements OnInit {
   items!: MenuItem[];
 
-  constructor() { }
+  constructor(private store: Store<fromUniversity.State>) { }
 
   ngOnInit() {
     this.items = [
@@ -28,7 +30,8 @@ export class MainNavigationComponent implements OnInit {
           icon:'pi pi-fw pi-ellipsis-v',
           routerLink: "/universityinfo"
       }
-  ];
+    ];
+    this.store.dispatch(UniversityActions.loadAllUniversities());
   }
 
 }

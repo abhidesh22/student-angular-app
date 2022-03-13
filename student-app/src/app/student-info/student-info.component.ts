@@ -1,8 +1,13 @@
-import { selectUniversityList, selectedUniversity, selectStudentsByUniversity, selectGradesBySubject, selectgraphMode } from './../shared/selectors/university-meta.selectors';
-import { StudentApiService } from './../shared/services/student-api.service';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { 
+  selectUniversityList,
+  selectedUniversity, 
+  selectStudentsByUniversity, 
+  selectGradesBySubject, 
+  selectgraphMode 
+} from './../shared/selectors/university-meta.selectors';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
 import { University } from '../shared/models/university-info';
-import { Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import * as fromUniversity from '../shared/reducers/university-meta.reducer';
 import { UniversityActions } from '../shared/actions';
@@ -21,7 +26,7 @@ export class StudentInfoComponent implements OnInit {
   studentsByUniversity$: Observable<Student[]>;
   gradesBySubject$:Observable<GradesData[]>;
 
-  universities: University[] = [];
+  universities: University[];
   graphMode: boolean = false;
   selectedUniversity: University = null;
   columns= [
@@ -39,16 +44,16 @@ export class StudentInfoComponent implements OnInit {
   ngOnInit(): void {
 
     this.SpinnerService.show();
-    
-    this.store.pipe(select(selectUniversityList)).pipe(take(1)).subscribe(uniList => {
-      this.universities = uniList;
-      setTimeout(() => {
-        this.SpinnerService.hide();
-        this.cdr.detectChanges();
-      }, 500);
-    });
+      this.store.pipe(select(selectUniversityList)).subscribe(uniList => {
 
-    this.store.pipe(select(selectedUniversity)).subscribe(uni => {
+        this.universities = this.universities || uniList;
+        setTimeout(() => {
+          this.SpinnerService.hide();
+          this.cdr.detectChanges();
+        }, 500);
+      });
+
+      this.store.pipe(select(selectedUniversity)).subscribe(uni => {
       this.selectedUniversity = uni || this.selectedUniversity;
     });
 
@@ -56,7 +61,7 @@ export class StudentInfoComponent implements OnInit {
       this.graphMode = mode;
     });
 
-    this.store.dispatch(UniversityActions.loadAllUniversities());
+
     this.studentsByUniversity$ = this.store.pipe(select(selectStudentsByUniversity, { selectedUniversity }));
     this.gradesBySubject$ = this.store.pipe(select(selectGradesBySubject, { selectedUniversity }));
 
